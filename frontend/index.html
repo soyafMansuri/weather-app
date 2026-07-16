@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skyline — Weather Forecast</title>
+
+    <!-- Google Fonts: Space Grotesk (display) + Inter (body/UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-theme="light" data-weather="default">
+
+    <!-- Animated background layers (change based on weather condition) -->
+    <div class="sky" id="skyLayer" aria-hidden="true">
+        <div class="sky__glow"></div>
+        <div class="sky__clouds"></div>
+        <div class="sky__precip" id="precipLayer"></div>
+    </div>
+
+    <div class="app">
+
+        <!-- ===== Header ===== -->
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand__mark">☁︎</span>
+                <span class="brand__name">Skyline 4.0</span>
+            </div>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark mode">
+        <span class="theme-toggle__icon">🌙</span>
+      </button>
+        </header>
+
+        <!-- ===== Search ===== -->
+        <section class="search-panel glass">
+            <form id="searchForm" class="search-form" autocomplete="off">
+                <input type="text" id="cityInput" class="search-input" placeholder="Search a city — e.g. Tokyo, London, Mumbai" aria-label="City name" required />
+                <button type="submit" class="search-btn" aria-label="Search">
+          <span class="search-btn__icon">→</span>
+        </button>
+            </form>
+
+            <!-- Recent search history chips -->
+            <div id="historyRow" class="history-row" aria-label="Recent searches"></div>
+        </section>
+
+        <!-- ===== Loading state ===== -->
+        <div id="loader" class="loader hidden" role="status" aria-live="polite">
+            <div class="loader__spinner"></div>
+            <p class="loader__text">Fetching skies…</p>
+        </div>
+
+        <!-- ===== Error state ===== -->
+        <div id="errorBox" class="error-box glass hidden" role="alert">
+            <span class="error-box__icon">⚠</span>
+            <p id="errorText" class="error-box__text">Something went wrong.</p>
+        </div>
+
+        <!-- ===== Weather Card ===== -->
+        <main id="weatherCard" class="weather-card glass hidden">
+
+            <!-- Location + date/time -->
+            <div class="weather-card__header">
+                <div>
+                    <h1 id="cityName" class="location-name">—</h1>
+                    <p id="dateTime" class="location-date">—</p>
+                </div>
+                <p id="description" class="weather-description">—</p>
+            </div>
+
+            <!-- Hero: icon + big temperature -->
+            <div class="weather-card__hero">
+                <img id="weatherIcon" class="weather-icon" src="" alt="Weather icon" />
+                <div class="temp-display">
+                    <span id="temperature" class="temp-display__value">—</span>
+                    <span class="temp-display__unit">°C</span>
+                </div>
+                <p id="feelsLike" class="feels-like">Feels like —°C</p>
+            </div>
+
+            <!-- Detail grid -->
+            <div class="detail-grid">
+                <div class="detail-tile">
+                    <span class="detail-tile__label">Humidity</span>
+                    <span id="humidity" class="detail-tile__value">—%</span>
+                </div>
+                <div class="detail-tile">
+                    <span class="detail-tile__label">Wind Speed</span>
+                    <span id="windSpeed" class="detail-tile__value">— m/s</span>
+                </div>
+                <div class="detail-tile">
+                    <span class="detail-tile__label">Pressure</span>
+                    <span id="pressure" class="detail-tile__value">— hPa</span>
+                </div>
+                <div class="detail-tile">
+                    <span class="detail-tile__label">Visibility</span>
+                    <span id="visibility" class="detail-tile__value">— km</span>
+                </div>
+                <div class="detail-tile">
+                    <span class="detail-tile__label">Sunrise</span>
+                    <span id="sunrise" class="detail-tile__value">—</span>
+                </div>
+                <div class="detail-tile">
+                    <span class="detail-tile__label">Sunset</span>
+                    <span id="sunset" class="detail-tile__value">—</span>
+                </div>
+            </div>
+
+            <p class="auto-refresh-note">Auto-refreshes every 5 minutes</p>
+        </main>
+
+        <!-- ===== Empty state (first load, before any search) ===== -->
+        <div id="emptyState" class="empty-state glass">
+            <p>Search any city to see its current skies.</p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
