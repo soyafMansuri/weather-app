@@ -1,0 +1,36 @@
+name: Deploy Weather App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/weather-app
+
+            git pull origin main
+
+            cd backend
+
+            source venv/bin/activate
+
+            pip install -r requirements.txt
+
+            sudo systemctl restart weather
+
+            sudo systemctl restart nginx
