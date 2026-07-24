@@ -13,6 +13,31 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Debug (Temporary)
+      - name: Check Secrets
+        run: |
+          if [ -z "${{ secrets.HOST }}" ]; then
+            echo "❌ HOST secret is missing"
+            exit 1
+          fi
+
+          if [ -z "${{ secrets.USERNAME }}" ]; then
+            echo "❌ USERNAME secret is missing"
+            exit 1
+          fi
+
+          if [ -z "${{ secrets.PORT }}" ]; then
+            echo "❌ PORT secret is missing"
+            exit 1
+          fi
+
+          if [ -z "${{ secrets.SSH_KEY }}" ]; then
+            echo "❌ SSH_KEY secret is missing"
+            exit 1
+          fi
+
+          echo "✅ All Secrets Found"
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -34,3 +59,5 @@ jobs:
             sudo systemctl restart weather
 
             sudo systemctl restart nginx
+
+            echo "Deployment Successful"
